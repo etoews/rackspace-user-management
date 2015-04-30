@@ -19,9 +19,10 @@ def get_user():
 
     with lock:
         if user_num < len(users):
-            bash = "export OS_REGION_NAME=IAD\n"
+            bash = "export OS_REGION_NAME=ORD\n"
             bash += "export OS_USERNAME={}\n".format(users[user_num].username)
             bash += "export OS_API_KEY={}\n".format(users[user_num].api_key)
+            bash += "export MACHINE_NAME=machine{0:02d}\n".format(user_num)
             user_num += 1
         else:
             bash = "No More Creds\n"
