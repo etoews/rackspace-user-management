@@ -23,6 +23,7 @@ def get_user():
             bash += "export OS_USERNAME={}\n".format(users[user_num].username)
             bash += "export OS_API_KEY={}\n".format(users[user_num].api_key)
             bash += "export NAME=machine{0:02d}\n".format(user_num)
+            bash += "export PATH=$PATH:.\n"
             user_num += 1
         else:
             bash = "No More Creds\n"
