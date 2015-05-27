@@ -19,16 +19,19 @@ def get_user():
 
     with lock:
         if user_num < len(users):
-            bash = "export OS_REGION_NAME=ORD\n"
-            bash += "export OS_USERNAME={}\n".format(users[user_num].username)
-            bash += "export OS_API_KEY={}\n".format(users[user_num].api_key)
-            bash += "export NAME=machine{0:02d}\n".format(user_num)
-            bash += "export PATH=$PATH:.\n"
+            html = "<pre>\n"
+            html += "export OS_AUTH_URL=https://identity.api.rackspacecloud.com/v2.0/\n"
+            html += "export OS_REGION_NAME=IAD\n"
+            html += "export OS_USERNAME={}\n".format(users[user_num].username)
+            html += "export OS_PROJECT_NAME={}\n".format(users[user_num].account_num)
+            html += "export OS_PASSWORD={}\n".format(users[user_num].password)
+            html += "export OS_API_KEY={}\n".format(users[user_num].api_key)
+            html += "</pre>\n"
             user_num += 1
         else:
-            bash = "No More Creds\n"
+            html = "No More Creds\n"
 
-    return bash
+    return html
 
 @api.route('/reset')
 def reset_users():
