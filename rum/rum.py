@@ -2,8 +2,6 @@ import threading
 
 from flask import Flask
 
-from users import users
-
 api = Flask(__name__)
 lock = threading.Lock()
 
@@ -17,6 +15,13 @@ def index():
 def get_user():
     global user_num
 
+    try:
+        from users import users
+    except ImportError:
+        return """<p>No user available. Sign up for a
+               <a href="https://developer.rackspace.com/signup/">developer+</a>
+               account instead.</p>"""
+
     with lock:
         if user_num < len(users):
             html = "<pre>\n"
@@ -29,7 +34,7 @@ def get_user():
             html += "</pre>\n"
             user_num += 1
         else:
-            html = "No More Creds\n"
+            html = "No More Users\n"
 
     return html
 
@@ -40,7 +45,7 @@ def reset_users():
     with lock:
         user_num = 0
 
-    return "More Creds\n"
+    return "More Users\n"
 
 if __name__ == '__main__':
     api.run(debug=True)
